@@ -1,0 +1,119 @@
+// =============================================================================
+// Permission Template: Debugging
+// =============================================================================
+//
+// Category: debugging
+// Description: Multi-language debugging agent with network, system, and container inspection tools
+//
+// Purpose:
+//   Diagnostic and troubleshooting agents that investigate runtime errors,
+//   network issues, and system failures. They need broad read-only access to
+//   multiple language runtimes, network utilities, process inspection tools,
+//   container logs, and cluster state — but no write access to VCS or
+//   destructive operations.
+//
+// Usage:
+//   This template defines the BASELINE permission set for all agents in this
+//   category. Individual agents may OVERRIDE specific entries to tailor
+//   permissions to their specific needs.
+//
+//   Override example (in the agent's final permissions):
+//   {
+//     "$extends": "debugging",
+//     "overrides": {
+//       "bash": {
+//         "git log": "allow",    // Override: allow git log for review
+//         "git log *": "allow"
+//       }
+//     }
+//   }
+//
+// =============================================================================
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/template.json",
+  "$version": "2.0.0",
+  "$doc": {
+    "baseline_rationale": "Broad diagnostic toolchain — multi-language runtimes, network utilities, process inspection, container logs, and cluster state",
+    "security_note": "Docker and kubectl use (ask) mode — user confirmation required for container and cluster operations"
+  },
+  "$extends": ["vcs-permissions"],
+  "category": "debugging",
+  "description": "Multi-language debugging agent with network, system, and container inspection tools",
+  "purpose": "Diagnostic and troubleshooting agents that investigate runtime errors, network issues, and system failures. They need broad read-only access to multiple language runtimes, network utilities, process inspection tools, container logs, and cluster state — but no write access to VCS or destructive operations.",
+  "baseline": {
+    "permission": {
+      // --- Package Managers & Runtimes ---
+      "npm *": "allow",
+      "npx *": "allow",
+      "node *": "allow",
+
+      // --- TypeScript ---
+      "tsc": "allow",
+      "tsc *": "allow",
+
+      // --- Testing ---
+      "vitest": "allow",
+      "vitest *": "allow",
+      "jest *": "allow",
+      "playwright *": "allow",
+
+      // --- Build Systems ---
+      "make": "allow",
+      "make *": "allow",
+
+      // --- Go Toolchain ---
+      "go *": "allow",
+
+      // --- Rust Toolchain ---
+      "cargo *": "allow",
+
+      // --- Python ---
+      "python *": "allow",
+      "python3 *": "allow",
+
+      // --- Network Debugging ---
+      "curl *": "allow",
+      "wget *": "allow",
+      "nc *": "allow",
+      "nslookup *": "allow",
+      "dig *": "allow",
+      "ping *": "allow",
+      "traceroute *": "allow",
+
+      // --- System & Process ---
+      "ps": "allow",
+      "ps *": "allow",
+      "top -l 1": "allow",
+      "lsof *": "allow",
+      "netstat *": "allow",
+
+      // --- Docker (Read-Only) ---
+      "docker ps": "allow",
+      "docker ps *": "allow",
+      "docker logs *": "allow",
+      "docker inspect *": "allow",
+      "docker images": "allow",
+      "docker images *": "allow",
+
+      // --- Kubernetes (Read-Only) ---
+      "kubectl get *": "allow",
+      "kubectl describe *": "allow",
+      "kubectl logs *": "allow",
+
+      // --- RTK Proxy: Toolchain ---
+      "rtk tsc": "allow",
+      "rtk tsc *": "allow",
+      "rtk vitest": "allow",
+      "rtk vitest *": "allow",
+      "rtk playwright *": "allow",
+      "rtk go *": "allow",
+      "rtk cargo *": "allow",
+      "rtk docker ps": "allow",
+      "rtk docker ps *": "allow",
+      "rtk docker logs *": "allow",
+      "rtk docker inspect *": "allow",
+      "rtk docker images": "allow",
+      "rtk docker images *": "allow"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+// Override: rust-engineer
+// Extends: lang-rust
+// Delta: adds 1 entry
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/agent.json",
+  "$version": "1.0.0",
+  "$doc": {
+    "agent_summary": "Rust systems engineer — CLI tools, web services, WASM modules, and concurrent systems",
+    "override_rationale": "Adds cross-compilation support via cross tool"
+  },
+  "agent": "rust-engineer",
+  "$extends": "lang-rust",
+  "overrides": {
+    "permission": {
+      "add": {
+        "cross *": "ask"
+      }
+    }
+  }
+}

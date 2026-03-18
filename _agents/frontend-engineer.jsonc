@@ -1,0 +1,22 @@
+// Override: frontend-engineer
+// Extends: frontend-ui
+// Delta: adds 2 entries
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/agent.json",
+  "$version": "1.0.0",
+  "$doc": {
+    "agent_summary": "Frontend UI engineer — React components, design systems, accessibility, and styling",
+    "override_rationale": "Adds Playwright and Jest for comprehensive component testing"
+  },
+  "agent": "frontend-engineer",
+  "$extends": "frontend-ui",
+  "overrides": {
+    "permission": {
+      "add": {
+        // --- Testing ---
+        "playwright *": "allow",
+        "jest *": "allow"
+      }
+    }
+  }
+}

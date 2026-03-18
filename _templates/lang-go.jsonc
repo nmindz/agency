@@ -1,0 +1,82 @@
+// =============================================================================
+// Permission Template: Lang Go
+// =============================================================================
+//
+// Category: lang-go
+// Description: Go/Golang development with Go toolchain and Docker support
+//
+// Purpose:
+//   Go/Golang development specialists building idiomatic, performant Go
+//   applications — microservices, CLI tools, APIs, and concurrent systems.
+//   They need the full Go toolchain (compiler, linter, debugger, protobuf),
+//   Docker for containerized builds, and standard VCS access.
+//
+// Usage:
+//   This template defines the BASELINE permission set for all agents in this
+//   category. Individual agents may OVERRIDE specific entries to tailor
+//   permissions to their specific needs.
+//
+//   Override example (in the agent's final permissions):
+//   {
+//     "$extends": "lang-go",
+//     "overrides": {
+//       "bash": {
+//         "git log": "allow",    // Override: allow git log for review
+//         "git log *": "allow"
+//       }
+//     }
+//   }
+//
+// =============================================================================
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/template.json",
+  "$version": "2.0.0",
+  "$doc": {
+    "baseline_rationale": "Full Go toolchain — compiler, linter, debugger, protobuf, Docker (ask), and full VCS access for Go application development",
+    "security_note": "Docker uses (ask) mode — user confirmation required for containerized builds"
+  },
+  "$extends": ["vcs-permissions"],
+  "category": "lang-go",
+  "description": "Go/Golang development with Go toolchain and Docker support",
+  "purpose": "Go/Golang development specialists building idiomatic, performant Go applications — microservices, CLI tools, APIs, and concurrent systems. They need the full Go toolchain (compiler, linter, debugger, protobuf), Docker for containerized builds, and standard VCS access.",
+  "baseline": {
+    "permission": {
+      // --- Build Systems ---
+      "make": "allow",
+      "make *": "allow",
+
+      // --- Go Toolchain ---
+      "go": "allow",
+      "go *": "allow",
+      "golangci-lint *": "allow",
+      "staticcheck *": "allow",
+      "dlv *": "allow",
+      "protoc *": "allow",
+      "protoc-gen-go *": "allow",
+      "buf *": "allow",
+
+      // --- Docker ---
+      "docker build *": "ask",
+      "docker run *": "ask",
+      "docker compose *": "ask",
+      "docker ps": "allow",
+      "docker ps *": "allow",
+      "docker images": "allow",
+      "docker images *": "allow",
+      "docker logs *": "allow",
+
+      // --- RTK Proxy: Toolchain ---
+      "rtk go": "allow",
+      "rtk go *": "allow",
+      "rtk golangci-lint *": "allow",
+      "rtk docker build *": "ask",
+      "rtk docker run *": "ask",
+      "rtk docker compose *": "ask",
+      "rtk docker ps": "allow",
+      "rtk docker ps *": "allow",
+      "rtk docker images": "allow",
+      "rtk docker images *": "allow",
+      "rtk docker logs *": "allow"
+    }
+  }
+}

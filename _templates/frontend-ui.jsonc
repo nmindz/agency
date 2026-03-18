@@ -1,0 +1,91 @@
+// =============================================================================
+// Permission Template: Frontend UI
+// =============================================================================
+//
+// Category: frontend-ui
+// Description: Frontend and UI/UX specialist agents for React, Next.js, and design systems
+//
+// Purpose:
+//   Client-side interface specialists focused on UI component development,
+//   design systems, styling, accessibility, and visual implementation. They
+//   work with component libraries, CSS frameworks, and design-to-code
+//   translation. They do not typically need cloud deployment tools or
+//   server-side Docker access.
+//
+// Usage:
+//   This template defines the BASELINE permission set for all agents in this
+//   category. Individual agents may OVERRIDE specific entries to tailor
+//   permissions to their specific needs.
+//
+//   Override example (in the agent's final permissions):
+//   {
+//     "$extends": "frontend-ui",
+//     "overrides": {
+//       "bash": {
+//         "git log": "allow",    // Override: allow git log for review
+//         "git log *": "allow"
+//       }
+//     }
+//   }
+//
+// =============================================================================
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/template.json",
+  "$version": "2.0.0",
+  "$doc": {
+    "baseline_rationale": "Client-side toolchain — Node.js runtimes, package managers, TypeScript, Next.js, linters, Vitest, Make, and full VCS access",
+    "security_note": "Jest, Playwright, Turbo, and Wrangler excluded from baseline — added per-agent when cross-cutting testing or deployment is needed"
+  },
+  "$extends": ["vcs-permissions"],
+  "category": "frontend-ui",
+  "description": "Frontend and UI/UX specialist agents for React, Next.js, and design systems",
+  "purpose": "Client-side interface specialists focused on UI component development, design systems, styling, accessibility, and visual implementation. They work with component libraries, CSS frameworks, and design-to-code translation. They do not typically need cloud deployment tools or server-side Docker access.",
+  "baseline": {
+    "permission": {
+      // NOTE: Omitted from baseline (not shared by all 3 agents):
+      //   - 'wrangler *' — not all frontend agents need cloud deployment tools
+      //   - 'turbo *' — not all frontend agents work in monorepos
+      //   - 'playwright *' — not all frontend agents run E2E tests
+      //   - 'jest *' — not all frontend agents run unit tests
+
+      // --- Package Managers & Runtimes ---
+      "npm *": "allow",
+      "npx *": "allow",
+      "npx -y *": "allow",
+      "pnpm *": "allow",
+      "bun *": "allow",
+      "bunx *": "allow",
+      "node *": "allow",
+
+      // --- TypeScript ---
+      "tsc": "allow",
+      "tsc *": "allow",
+
+      // --- Linting & Formatting ---
+      "biome *": "allow",
+      "eslint *": "allow",
+      "prettier *": "allow",
+
+      // --- Frameworks ---
+      "next *": "allow",
+
+      // --- Testing ---
+      "vitest": "allow",
+      "vitest *": "allow",
+
+      // --- Build Systems ---
+      "make": "allow",
+      "make *": "allow",
+
+      // --- RTK Proxy: Toolchain ---
+      "rtk tsc": "allow",
+      "rtk tsc *": "allow",
+      "rtk lint": "allow",
+      "rtk lint *": "allow",
+      "rtk prettier *": "allow",
+      "rtk vitest": "allow",
+      "rtk vitest *": "allow",
+      "rtk next *": "allow"
+    }
+  }
+}

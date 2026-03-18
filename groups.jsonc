@@ -1,0 +1,24 @@
+// groups.jsonc — Command group classification for generated output
+// Key order defines display order. Commands not matching any prefix → "Other".
+// This file is optional — built-in defaults are used if absent.
+{
+  "Package Managers & Runtimes": ["npm", "npx", "pnpm", "bun", "bunx", "node", "deno", "python", "python3", "brew"],
+  "TypeScript & Compilation": ["tsc", "swc", "esbuild", "rollup", "vite", "tsx", "ts-node"],
+  "Linting & Formatting": ["biome", "eslint", "prettier"],
+  "Frameworks": ["next", "hono", "nest"],
+  "Testing": ["vitest", "playwright", "jest"],
+  "Build Systems": ["make", "turbo", "cmake"],
+  "Cloud & Platform Tools": ["wrangler", "ray"],
+  "Docker": ["docker"],
+  "Shell Tools": ["zsh", "shellcheck", "shfmt", "chmod"],
+  "macOS System Tools": ["defaults", "launchctl", "open", "osascript", "pbcopy", "pbpaste", "sw_vers", "sysctl", "system_profiler", "plutil", "xcode-select", "xcrun", "otool", "codesign", "csrutil", "spctl", "security", "diskutil", "mdls", "mdfind", "pmset", "powermetrics"],
+  "MCP": ["mcp-cli"],
+  "Network Debugging": ["curl", "wget", "nc", "nslookup", "dig", "ping", "traceroute"],
+  "System & Process": ["ps", "top", "lsof", "netstat"],
+  "Kubernetes & Helm": ["kubectl", "helm"],
+  "Terraform": ["terraform", "terragrunt"],
+  "Infrastructure": ["aws"],
+  "Go Toolchain": ["go", "golangci-lint", "staticcheck", "dlv", "protoc", "buf"],
+  "Rust Toolchain": ["cargo", "rustc", "rustfmt", "clippy-driver", "rustup", "rust-analyzer"],
+  "WASM Toolchain": ["wasm-pack", "wasm-opt", "wasm-tools", "wasmtime", "wasmer", "wasm2wat", "wat2wasm", "tinygo"]
+}

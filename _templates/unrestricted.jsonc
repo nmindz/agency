@@ -1,0 +1,48 @@
+// =============================================================================
+// Permission Template: Unrestricted
+// =============================================================================
+//
+// Category: unrestricted
+// Description: Unrestricted execution agent with no permission constraints
+//
+// Purpose:
+//   Fully unrestricted execution baseline with no permission boundaries.
+//   Intended for agents that explicitly operate outside standard safety
+//   constraints for analytical or boundary-testing purposes. Use with extreme
+//   caution and only for agents whose design requires unrestricted access.
+//
+// Usage:
+//   This template defines the BASELINE permission set for all agents in this
+//   category. Individual agents may OVERRIDE specific entries to tailor
+//   permissions to their specific needs.
+//
+//   Override example (in the agent's final permissions):
+//   {
+//     "$extends": "unrestricted",
+//     "overrides": {
+//       "bash": {
+//         "git log": "allow",    // Override: allow git log for review
+//         "git log *": "allow"
+//       }
+//     }
+//   }
+//
+// =============================================================================
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/template.json",
+  "$version": "1.0.0",
+  "$doc": {
+    "baseline_rationale": "Fully unrestricted execution — bash wildcard allow with no permission constraints",
+    "security_note": "DANGER: No permission boundaries. Reserved for agents explicitly designed for boundary-testing or analytical execution"
+  },
+  "category": "unrestricted",
+  "description": "Unrestricted execution agent with no permission constraints",
+  "purpose": "Fully unrestricted execution baseline with no permission boundaries. Intended for agents that explicitly operate outside standard safety constraints for analytical or boundary-testing purposes. Use with extreme caution and only for agents whose design requires unrestricted access.",
+  "baseline": {
+    "permission": {
+      "bash": {
+        "*": "allow"
+      }
+    }
+  }
+}

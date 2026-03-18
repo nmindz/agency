@@ -1,0 +1,95 @@
+// =============================================================================
+// Permission Template: Fullstack Builders
+// =============================================================================
+//
+// Category: fullstack-builders
+// Description: Full-stack builder agents with comprehensive JS/TS development tooling
+//
+// Purpose:
+//   General-purpose implementation agents that build features end-to-end across
+//   the full stack. They have broad access to JavaScript/TypeScript package
+//   managers, runtimes, linters, formatters, frameworks, test runners, and
+//   build systems. They are the workhorses for feature implementation driven
+//   by PRDs or direct prompts.
+//
+// Usage:
+//   This template defines the BASELINE permission set for all agents in this
+//   category. Individual agents may OVERRIDE specific entries to tailor
+//   permissions to their specific needs.
+//
+//   Override example (in the agent's final permissions):
+//   {
+//     "$extends": "fullstack-builders",
+//     "overrides": {
+//       "bash": {
+//         "git log": "allow",    // Override: allow git log for review
+//         "git log *": "allow"
+//       }
+//     }
+//   }
+//
+// =============================================================================
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/template.json",
+  "$version": "2.0.0",
+  "$doc": {
+    "baseline_rationale": "Comprehensive JS/TS development toolchain — all runtimes, frameworks, test runners, build systems, and full VCS access",
+    "security_note": "Deno excluded from baseline — added per-agent via override when multi-runtime work is needed"
+  },
+  "$extends": ["vcs-permissions"],
+  "category": "fullstack-builders",
+  "description": "Full-stack builder agents with comprehensive JS/TS development tooling",
+  "purpose": "General-purpose implementation agents that build features end-to-end across the full stack. They have broad access to JavaScript/TypeScript package managers, runtimes, linters, formatters, frameworks, test runners, and build systems. They are the workhorses for feature implementation driven by PRDs or direct prompts.",
+  "baseline": {
+    "permission": {
+      // NOTE: 'deno *' is omitted from baseline — not all agents in this category
+      // require Deno runtime access. Add as an override where needed.
+
+      // --- Package Managers & Runtimes ---
+      "npm *": "allow",
+      "npx *": "allow",
+      "npx -y *": "allow",
+      "pnpm *": "allow",
+      "bun *": "allow",
+      "bunx *": "allow",
+      "node *": "allow",
+
+      // --- TypeScript ---
+      "tsc": "allow",
+      "tsc *": "allow",
+
+      // --- Linting & Formatting ---
+      "biome *": "allow",
+      "eslint *": "allow",
+      "prettier *": "allow",
+
+      // --- Frameworks ---
+      "next *": "allow",
+
+      // --- Testing ---
+      "vitest": "allow",
+      "vitest *": "allow",
+      "playwright *": "allow",
+      "jest *": "allow",
+
+      // --- Build Systems ---
+      "make": "allow",
+      "make *": "allow",
+      "turbo *": "allow",
+
+      // --- Cloud ---
+      "wrangler *": "allow",
+
+      // --- RTK Proxy: Toolchain ---
+      "rtk tsc": "allow",
+      "rtk tsc *": "allow",
+      "rtk lint": "allow",
+      "rtk lint *": "allow",
+      "rtk prettier *": "allow",
+      "rtk vitest": "allow",
+      "rtk vitest *": "allow",
+      "rtk playwright *": "allow",
+      "rtk next *": "allow"
+    }
+  }
+}

@@ -1,0 +1,123 @@
+// =============================================================================
+// Permission Template: Lang TypeScript
+// =============================================================================
+//
+// Category: lang-typescript
+// Description: TypeScript specialist with extended compilation tools and multi-framework support
+//
+// Purpose:
+//   TypeScript development specialists building type-safe server-side APIs,
+//   CLI tools, libraries, and monorepos across multiple runtimes (Node.js,
+//   Deno, Bun). They need extended compilation tools (swc, esbuild, rollup,
+//   vite), multiple frameworks (Hono, NestJS), protobuf/gRPC support, and
+//   Docker access.
+//
+// Usage:
+//   This template defines the BASELINE permission set for all agents in this
+//   category. Individual agents may OVERRIDE specific entries to tailor
+//   permissions to their specific needs.
+//
+//   Override example (in the agent's final permissions):
+//   {
+//     "$extends": "lang-typescript",
+//     "overrides": {
+//       "bash": {
+//         "git log": "allow",    // Override: allow git log for review
+//         "git log *": "allow"
+//       }
+//     }
+//   }
+//
+// =============================================================================
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/template.json",
+  "$version": "2.0.0",
+  "$doc": {
+    "baseline_rationale": "Extended TypeScript toolchain — all runtimes (Node/Deno/Bun), compilation tools (swc/esbuild/rollup/vite), frameworks (Hono/NestJS), protobuf, Docker, and VCS access",
+    "security_note": "Docker uses (ask) mode — user confirmation required for containerized builds"
+  },
+  "$extends": ["vcs-permissions"],
+  "category": "lang-typescript",
+  "description": "TypeScript specialist with extended compilation tools and multi-framework support",
+  "purpose": "TypeScript development specialists building type-safe server-side APIs, CLI tools, libraries, and monorepos across multiple runtimes (Node.js, Deno, Bun). They need extended compilation tools (swc, esbuild, rollup, vite), multiple frameworks (Hono, NestJS), protobuf/gRPC support, and Docker access.",
+  "baseline": {
+    "permission": {
+      // --- Package Managers & Runtimes ---
+      "npm *": "allow",
+      "npx *": "allow",
+      "npx -y *": "allow",
+      "pnpm *": "allow",
+      "bun *": "allow",
+      "bunx *": "allow",
+      "node *": "allow",
+      "deno *": "allow",
+
+      // --- TypeScript ---
+      "tsc": "allow",
+      "tsc *": "allow",
+      "swc *": "allow",
+      "esbuild *": "allow",
+      "rollup *": "allow",
+      "vite *": "allow",
+      "tsx *": "allow",
+      "ts-node *": "allow",
+
+      // --- Linting & Formatting ---
+      "biome *": "allow",
+      "eslint *": "allow",
+      "prettier *": "allow",
+
+      // --- Frameworks ---
+      "next *": "allow",
+      "hono *": "allow",
+      "nest *": "allow",
+
+      // --- Testing ---
+      "vitest": "allow",
+      "vitest *": "allow",
+      "jest *": "allow",
+      "playwright *": "allow",
+
+      // --- Build Systems ---
+      "make": "allow",
+      "make *": "allow",
+      "turbo *": "allow",
+
+      // --- Cloud ---
+      "wrangler *": "allow",
+
+      // --- Go Toolchain (protobuf) ---
+      "protoc *": "allow",
+      "buf *": "allow",
+
+      // --- Docker ---
+      "docker build *": "ask",
+      "docker run *": "ask",
+      "docker compose *": "ask",
+      "docker ps": "allow",
+      "docker ps *": "allow",
+      "docker images": "allow",
+      "docker images *": "allow",
+      "docker logs *": "allow",
+
+      // --- RTK Proxy: Toolchain ---
+      "rtk tsc": "allow",
+      "rtk tsc *": "allow",
+      "rtk lint": "allow",
+      "rtk lint *": "allow",
+      "rtk prettier *": "allow",
+      "rtk vitest": "allow",
+      "rtk vitest *": "allow",
+      "rtk playwright *": "allow",
+      "rtk next *": "allow",
+      "rtk docker build *": "ask",
+      "rtk docker run *": "ask",
+      "rtk docker compose *": "ask",
+      "rtk docker ps": "allow",
+      "rtk docker ps *": "allow",
+      "rtk docker images": "allow",
+      "rtk docker images *": "allow",
+      "rtk docker logs *": "allow"
+    }
+  }
+}

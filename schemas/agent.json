@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/agent.json",
+  "title": "Agency Agent Override",
+  "description": "Defines per-agent permission overrides that extend a template baseline. Agent files add or remove specific commands from their category's template.",
+  "type": "object",
+  "required": ["$schema", "$version", "agent", "$extends", "overrides"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema reference URL.",
+      "const": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/agent.json"
+    },
+    "$version": {
+      "type": "string",
+      "description": "Schema version (semver).",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "examples": ["1.0.0", "1.1.0"]
+    },
+    "$extends": {
+      "type": "string",
+      "description": "Category name this agent extends. Must match a template filename (without .jsonc).",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "examples": ["backend-api", "frontend-ui", "lang-rust"]
+    },
+    "$doc": {
+      "$ref": "#/$defs/agentDoc"
+    },
+    "agent": {
+      "type": "string",
+      "description": "Agent identifier. Must match the agent filename (without .jsonc extension).",
+      "examples": ["x-backend-engineer", "plan", "z-rust-engineer"]
+    },
+    "overrides": {
+      "$ref": "#/$defs/overrideBlock"
+    }
+  },
+  "$defs": {
+    "permValue": {
+      "type": "string",
+      "enum": ["allow", "deny", "ask"],
+      "description": "Permission action: allow (auto-approve), deny (block), or ask (prompt user)."
+    },
+    "agentDoc": {
+      "type": "object",
+      "description": "Optional documentation metadata for generators and audit reports.",
+      "additionalProperties": false,
+      "properties": {
+        "agent_summary": {
+          "type": "string",
+          "description": "One-line description of what this agent does."
+        },
+        "override_rationale": {
+          "type": "string",
+          "description": "Why this agent differs from its category baseline."
+        }
+      }
+    },
+    "overrideBlock": {
+      "type": "object",
+      "description": "Override configuration. Can be empty {} for agents that match their template exactly.",
+      "additionalProperties": false,
+      "properties": {
+        "permission": {
+          "$ref": "#/$defs/permissionOverride"
+        }
+      }
+    },
+    "permissionOverride": {
+      "type": "object",
+      "description": "Permission overrides to apply on top of the template baseline.",
+      "additionalProperties": false,
+      "properties": {
+        "add": {
+          "type": "object",
+          "description": "Commands to add or override. Keys are command patterns, values are permission actions.",
+          "additionalProperties": { "$ref": "#/$defs/permValue" }
+        },
+        "remove": {
+          "type": "array",
+          "description": "Command patterns to remove from the baseline.",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

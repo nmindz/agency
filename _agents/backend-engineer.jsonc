@@ -1,0 +1,27 @@
+// Override: backend-engineer
+// Extends: backend-api
+// Delta: adds 4 entries
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/agent.json",
+  "$version": "1.0.0",
+  "$doc": {
+    "agent_summary": "Backend API engineer — server-side APIs, database operations, and containerized services",
+    "override_rationale": "Adds Next.js, Playwright, Turbo, and Docker (ask) for full-stack backend work"
+  },
+  "agent": "backend-engineer",
+  "$extends": "backend-api",
+  "overrides": {
+    "permission": {
+      "add": {
+        // --- Frameworks ---
+        "next *": "allow",
+        // --- Testing ---
+        "playwright *": "allow",
+        // --- Build Systems ---
+        "turbo *": "allow",
+        // --- Docker ---
+        "docker *": "ask"
+      }
+    }
+  }
+}

@@ -1,0 +1,88 @@
+// =============================================================================
+// Permission Template: Quality Security
+// =============================================================================
+//
+// Category: quality-security
+// Description: Testing, QA, code review, security audit, and simplification agents
+//
+// Purpose:
+//   Code quality, testing, security, and refactoring specialists. They run
+//   test suites, perform security audits, analyze code quality, detect dead
+//   code, and simplify complex implementations. They need access to test
+//   runners and linters but do not typically need cloud deployment or Docker
+//   access.
+//
+// Usage:
+//   This template defines the BASELINE permission set for all agents in this
+//   category. Individual agents may OVERRIDE specific entries to tailor
+//   permissions to their specific needs.
+//
+//   Override example (in the agent's final permissions):
+//   {
+//     "$extends": "quality-security",
+//     "overrides": {
+//       "bash": {
+//         "git log": "allow",    // Override: allow git log for review
+//         "git log *": "allow"
+//       }
+//     }
+//   }
+//
+// =============================================================================
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/template.json",
+  "$version": "2.0.0",
+  "$doc": {
+    "baseline_rationale": "Code quality toolchain — test runners, linters, formatters, and standard VCS access for review, security audit, and refactoring",
+    "security_note": "Playwright, Next.js, and Turbo excluded from baseline — added per-agent for E2E or monorepo-specific testing"
+  },
+  "$extends": ["vcs-permissions"],
+  "category": "quality-security",
+  "description": "Testing, QA, code review, security audit, and simplification agents",
+  "purpose": "Code quality, testing, security, and refactoring specialists. They run test suites, perform security audits, analyze code quality, detect dead code, and simplify complex implementations. They need access to test runners and linters but do not typically need cloud deployment or Docker access.",
+  "baseline": {
+    "permission": {
+      // NOTE: Omitted from baseline (not shared by all 5 agents):
+      //   - 'next *' — not all quality/security agents work with Next.js directly
+      //   - 'turbo *' — not all quality/security agents work in monorepos
+      //   - 'playwright *' — not all quality/security agents run E2E tests
+      //   - 'wrangler *' (none of the 5 agents have it)
+
+      // --- Package Managers & Runtimes ---
+      "npm *": "allow",
+      "npx *": "allow",
+      "npx -y *": "allow",
+      "pnpm *": "allow",
+      "bun *": "allow",
+      "bunx *": "allow",
+      "node *": "allow",
+
+      // --- TypeScript ---
+      "tsc": "allow",
+      "tsc *": "allow",
+
+      // --- Linting & Formatting ---
+      "biome *": "allow",
+      "eslint *": "allow",
+      "prettier *": "allow",
+
+      // --- Testing ---
+      "vitest": "allow",
+      "vitest *": "allow",
+      "jest *": "allow",
+
+      // --- Build Systems ---
+      "make": "allow",
+      "make *": "allow",
+
+      // --- RTK Proxy: Toolchain ---
+      "rtk tsc": "allow",
+      "rtk tsc *": "allow",
+      "rtk lint": "allow",
+      "rtk lint *": "allow",
+      "rtk prettier *": "allow",
+      "rtk vitest": "allow",
+      "rtk vitest *": "allow"
+    }
+  }
+}

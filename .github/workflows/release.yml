@@ -1,0 +1,62 @@
+# =============================================================================
+# Release Workflow
+#
+# Runs semantic-release on every push/merge to main (and on manual trigger).
+# semantic-release determines the next version from Conventional Commits,
+# generates the CHANGELOG, creates a GitHub Release + git tag, and commits
+# the updated CHANGELOG.md back to main with [skip ci].
+# =============================================================================
+
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+  # Allow manual trigger from the GitHub UI — no inputs needed; semantic-release
+  # inspects the commit history itself to decide whether a release is warranted.
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: semantic-release
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write       # create tags, releases, and commit CHANGELOG.md back
+      issues: write         # comment on issues (optional but recommended)
+      pull-requests: write  # comment on PRs (optional but recommended)
+
+    steps:
+      # -------------------------------------------------------------------
+      # 1. Checkout full history (semantic-release needs all commits)
+      # -------------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # -------------------------------------------------------------------
+      # 2. Set up Node.js
+      # -------------------------------------------------------------------
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # -------------------------------------------------------------------
+      # 3. Install semantic-release and all plugins
+      #    No package.json in this repo — install transiently with --no-save.
+      # -------------------------------------------------------------------
+      - name: Install semantic-release and plugins
+        run: npm install --no-save semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/github @semantic-release/git
+
+      # -------------------------------------------------------------------
+      # 4. Run semantic-release
+      #    Config is read from .releaserc.json at the repo root.
+      # -------------------------------------------------------------------
+      - name: Run semantic-release
+        run: ./node_modules/.bin/semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

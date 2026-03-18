@@ -1,0 +1,13 @@
+// Override: orchestrator
+// Extends: orchestration
+// Delta: none
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/agent.json",
+  "$version": "1.0.0",
+  "$doc": {
+    "agent_summary": "Task orchestrator — delegates work to specialized agents without direct execution"
+  },
+  "agent": "orchestrator",
+  "$extends": "orchestration",
+  "overrides": {}
+}

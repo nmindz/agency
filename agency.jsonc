@@ -1,0 +1,7 @@
+// agency.jsonc — Agency project configuration
+// All fields are optional. CLI flags (--templates-dir, --agents-dir, --groups-file) take precedence.
+{
+  // "templates_dir": "_templates",
+  // "agents_dir": "_agents",
+  // "groups_file": "groups.jsonc"
+}

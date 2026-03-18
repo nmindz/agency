@@ -1,0 +1,28 @@
+# Rust build artifacts
+/target/
+/dist/
+
+# Release binary
+/agency
+
+# Generated output (reproducible via `make report`)
+/audit-report.md
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python (legacy, should not exist)
+__pycache__/
+.ruff_cache/
+*.pyc
+
+
+/permissions.jsonc

@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/template.json",
+  "title": "Agency Permission Template",
+  "description": "Defines a category baseline permission set for OpenCode agents. Templates are the source of truth — agent files extend them with overrides.",
+  "type": "object",
+  "required": [
+    "$schema",
+    "$version",
+    "category",
+    "description",
+    "purpose",
+    "baseline"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema reference URL.",
+      "const": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/template.json"
+    },
+    "$version": {
+      "type": "string",
+      "description": "Schema version (semver).",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "examples": ["1.0.0", "1.1.0"]
+    },
+    "$doc": {
+      "$ref": "#/$defs/templateDoc"
+    },
+    "$extends": {
+      "description": "Parent template(s) to inherit from. Can be a single template name (string) or an array of template names. The child template's baseline is merged on top of the parents' baselines.",
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Single parent template name.",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        {
+          "type": "array",
+          "description": "Multiple parent template names, merged left-to-right.",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      ]
+    },
+    "category": {
+      "type": "string",
+      "description": "Category identifier. Must match the template filename (without .jsonc extension).",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "examples": ["backend-api", "frontend-ui", "lang-rust", "orchestration"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description of the category and its agents."
+    },
+    "purpose": {
+      "type": "string",
+      "description": "Detailed explanation of the category's purpose, the types of agents it covers, and what toolchains they typically use."
+    },
+    "baseline": {
+      "$ref": "#/$defs/baseline"
+    }
+  },
+  "$defs": {
+    "permValue": {
+      "type": "string",
+      "enum": ["allow", "deny", "ask"],
+      "description": "Permission action: allow (auto-approve), deny (block), or ask (prompt user)."
+    },
+    "templateDoc": {
+      "type": "object",
+      "description": "Optional documentation metadata for generators and audit reports.",
+      "additionalProperties": false,
+      "properties": {
+        "baseline_rationale": {
+          "type": "string",
+          "description": "What the baseline provides and why these tools are included."
+        },
+        "security_note": {
+          "type": "string",
+          "description": "Security-relevant information about the category (e.g., tools excluded from baseline)."
+        }
+      }
+    },
+    "simplePermission": {
+      "type": "object",
+      "description": "Full permission object for simple categories (e.g., orchestration, planning).",
+      "properties": {
+        "write": { "$ref": "#/$defs/permValue" },
+        "edit": { "$ref": "#/$defs/permValue" },
+        "bash": {
+          "oneOf": [
+            { "$ref": "#/$defs/permValue" },
+            {
+              "type": "object",
+              "description": "Bash permission as a command → action map (e.g., {\"*\": \"allow\"}).",
+              "additionalProperties": { "$ref": "#/$defs/permValue" }
+            }
+          ]
+        }
+      },
+      "required": ["bash"],
+      "additionalProperties": false
+    },
+    "commandMap": {
+      "type": "object",
+      "description": "Command → permission map for complex categories. Keys are command patterns (e.g., \"npm *\", \"git status\"), values are permission actions.",
+      "additionalProperties": { "$ref": "#/$defs/permValue" },
+      "minProperties": 1
+    },
+    "baseline": {
+      "type": "object",
+      "description": "Baseline permission configuration.",
+      "required": ["permission"],
+      "additionalProperties": false,
+      "properties": {
+        "permission": {
+          "description": "Permission definition. For simple categories, this is a full permission object ({write, edit, bash}). For complex categories, this is a command → permission map.",
+          "oneOf": [
+            { "$ref": "#/$defs/simplePermission" },
+            { "$ref": "#/$defs/commandMap" }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,51 @@
+// =============================================================================
+// Permission Template: General Purpose
+// =============================================================================
+//
+// Category: general-purpose
+// Description: General-purpose agents with minimal or no bash access
+//
+// Purpose:
+//   Maximum-restriction baseline for agents that handle general-purpose tasks
+//   without needing shell, file write, or file edit access. These agents
+//   operate entirely through read-only tools and structured outputs. Agents
+//   requiring shell or write access should use a different, more permissive
+//   template.
+//
+// Usage:
+//   This template defines the BASELINE permission set for all agents in this
+//   category. Individual agents may OVERRIDE specific entries to tailor
+//   permissions to their specific needs.
+//
+//   Override example (in the agent's final permissions):
+//   {
+//     "$extends": "general-purpose",
+//     "overrides": {
+//       "bash": {
+//         "git log": "allow",    // Override: allow git log for review
+//         "git log *": "allow"
+//       }
+//     }
+//   }
+//
+// =============================================================================
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/template.json",
+  "$version": "1.0.0",
+  "$doc": {
+    "baseline_rationale": "Maximum restriction — write, edit, and bash all denied; operates through read-only tools only",
+    "security_note": "Most restrictive baseline in the system; agents needing any shell access must use a different template"
+  },
+  "category": "general-purpose",
+  "description": "General-purpose agents with minimal or no bash access",
+  "purpose": "Maximum-restriction baseline for agents that handle general-purpose tasks without needing shell, file write, or file edit access. These agents operate entirely through read-only tools and structured outputs. Agents requiring shell or write access should use a different, more permissive template.",
+  "baseline": {
+    "permission": {
+      // NOTE: Some general-purpose agents with MCP tool access may need a more
+      //   permissive permission set — use overrides for those cases.
+      "write": "deny",
+      "edit": "deny",
+      "bash": "deny"
+    }
+  }
+}

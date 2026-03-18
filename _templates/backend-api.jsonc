@@ -1,0 +1,91 @@
+// =============================================================================
+// Permission Template: Backend API
+// =============================================================================
+//
+// Category: backend-api
+// Description: Backend, database, and cloud platform specialist agents
+//
+// Purpose:
+//   Server-side engineers focused on APIs, data layers, edge/cloud deployment,
+//   and backend infrastructure. They work with server frameworks, database
+//   ORMs, cloud platform CLIs, and may need Docker access for containerized
+//   services. They handle API routes, server actions, caching, and deployment
+//   pipelines.
+//
+// Usage:
+//   This template defines the BASELINE permission set for all agents in this
+//   category. Individual agents may OVERRIDE specific entries to tailor
+//   permissions to their specific needs.
+//
+//   Override example (in the agent's final permissions):
+//   {
+//     "$extends": "backend-api",
+//     "overrides": {
+//       "bash": {
+//         "git log": "allow",    // Override: allow git log for review
+//         "git log *": "allow"
+//       }
+//     }
+//   }
+//
+// =============================================================================
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/template.json",
+  "$version": "2.0.0",
+  "$doc": {
+    "baseline_rationale": "Standard backend toolchain — Node.js runtimes, package managers, TypeScript, linters, test runners, Make, Wrangler, and full VCS access",
+    "security_note": "Docker, Next.js, Playwright, and Turbo excluded from baseline — added per-agent via override when justified"
+  },
+  "$extends": ["vcs-permissions"],
+  "category": "backend-api",
+  "description": "Backend, database, and cloud platform specialist agents",
+  "purpose": "Server-side engineers focused on APIs, data layers, edge/cloud deployment, and backend infrastructure. They work with server frameworks, database ORMs, cloud platform CLIs, and may need Docker access for containerized services. They handle API routes, server actions, caching, and deployment pipelines.",
+  "baseline": {
+    "permission": {
+      // NOTE: Omitted from baseline (not shared by all 4 agents):
+      //   - 'next *' — not all backend agents work with Next.js frameworks
+      //   - 'turbo *' — not all backend agents work in monorepos
+      //   - 'playwright *' — not all backend agents run E2E tests
+      //   - 'docker *' — not all backend agents need container management
+
+      // --- Package Managers & Runtimes ---
+      "npm *": "allow",
+      "npx *": "allow",
+      "npx -y *": "allow",
+      "pnpm *": "allow",
+      "bun *": "allow",
+      "bunx *": "allow",
+      "node *": "allow",
+
+      // --- TypeScript ---
+      "tsc": "allow",
+      "tsc *": "allow",
+
+      // --- Linting & Formatting ---
+      "biome *": "allow",
+      "eslint *": "allow",
+      "prettier *": "allow",
+
+      // --- Testing ---
+      "vitest": "allow",
+      "vitest *": "allow",
+      "jest *": "allow",
+
+      // --- Build Systems ---
+      "make": "allow",
+      "make *": "allow",
+
+      // --- Cloud ---
+      "wrangler *": "allow",
+
+      // --- RTK Proxy: Toolchain ---
+      "rtk tsc": "allow",
+      "rtk tsc *": "allow",
+      "rtk lint": "allow",
+      "rtk lint *": "allow",
+      "rtk prettier *": "allow",
+      "rtk vitest": "allow",
+      "rtk vitest *": "allow"
+    }
+  }
+}

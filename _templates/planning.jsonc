@@ -1,0 +1,45 @@
+// =============================================================================
+// Permission Template: Planning
+// =============================================================================
+//
+// Category: planning
+// Description: Planning and analysis agents that design solutions without code execution
+//
+// Purpose:
+//   Read-only analysis agents that examine codebases and produce execution
+//   plans. They read files and search code but never modify anything. They
+//   output structured plans, architecture recommendations, or PRD analysis
+//   — never implementation.
+//
+// Usage:
+//   This template defines the BASELINE permission set for all agents in this
+//   category. Individual agents may OVERRIDE specific entries to tailor
+//   permissions to their specific needs.
+//
+//   Override example (in the agent's final permissions):
+//   {
+//     "$extends": "planning",
+//     "overrides": {
+//       "bash": {
+//         "git log": "allow",    // Override: allow git log for review
+//         "git log *": "allow"
+//       }
+//     }
+//   }
+//
+// =============================================================================
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/template.json",
+  "$version": "1.0.0",
+  "$doc": {
+    "baseline_rationale": "Read-only analysis — no shell access; produces execution plans and architecture recommendations"
+  },
+  "category": "planning",
+  "description": "Planning and analysis agents that design solutions without code execution",
+  "purpose": "Read-only analysis agents that examine codebases and produce execution plans. They read files and search code but never modify anything. They output structured plans, architecture recommendations, or PRD analysis — never implementation.",
+  "baseline": {
+    "permission": {
+      "bash": "deny"
+    }
+  }
+}

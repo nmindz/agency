@@ -1,0 +1,55 @@
+// =============================================================================
+// Permission Template: Lang Specialized
+// =============================================================================
+//
+// Category: lang-specialized
+// Description: Shared baseline for specialized language agents (WASM, Zsh, Raycast)
+//
+// Purpose:
+//   Niche language or platform specialists whose toolchains are highly unique
+//   (e.g., WebAssembly, shell scripting, Raycast extensions). They share only
+//   minimal common ground — build systems and VCS access. Each agent in this
+//   category requires significant per-agent overrides beyond the baseline.
+//
+// Usage:
+//   This template defines the BASELINE permission set for all agents in this
+//   category. Individual agents may OVERRIDE specific entries to tailor
+//   permissions to their specific needs.
+//
+//   Override example (in the agent's final permissions):
+//   {
+//     "$extends": "lang-specialized",
+//     "overrides": {
+//       "bash": {
+//         "git log": "allow",    // Override: allow git log for review
+//         "git log *": "allow"
+//       }
+//     }
+//   }
+//
+// =============================================================================
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/template.json",
+  "$version": "2.0.0",
+  "$doc": {
+    "baseline_rationale": "Minimal shared baseline — only Make and VCS access; each agent adds its unique toolchain (WASM, Zsh, Raycast) via large overrides",
+    "security_note": "Agents in this category have highly divergent toolchains — review each agent's override carefully"
+  },
+  "$extends": ["vcs-permissions"],
+  "category": "lang-specialized",
+  "description": "Shared baseline for specialized language agents (WASM, Zsh, Raycast)",
+  "purpose": "Niche language or platform specialists whose toolchains are highly unique (e.g., WebAssembly, shell scripting, Raycast extensions). They share only minimal common ground — build systems and VCS access. Each agent in this category requires significant per-agent overrides beyond the baseline.",
+  "baseline": {
+    "permission": {
+      // NOTE: This is a minimal intersection baseline. Each agent in this category
+      //   has highly specialized tooling that differs significantly:
+      //   - WASM agents: npm/node, tsc, cmake, go, cargo/rust, wasm-pack/wasmtime, docker
+      //   - Shell scripting agents: zsh/shellcheck/shfmt, macOS system tools, homebrew, chmod
+      //   - Platform extension agents: npm/node, tsc, biome/eslint/prettier, vitest/jest, platform CLIs
+
+      // --- Build Systems ---
+      "make": "allow",
+      "make *": "allow"
+    }
+  }
+}

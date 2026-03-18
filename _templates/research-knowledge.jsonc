@@ -1,0 +1,46 @@
+// =============================================================================
+// Permission Template: Research Knowledge
+// =============================================================================
+//
+// Category: research-knowledge
+// Description: Read-only research, exploration, documentation, and knowledge generation agents
+//
+// Purpose:
+//   Read-only information agents that research, explore, document, and generate
+//   knowledge artifacts. They cannot execute shell commands, write files
+//   directly, or modify code. They produce research reports, documentation,
+//   cheatsheets, skills, agent definitions, or codebase analysis — never
+//   runnable code.
+//
+// Usage:
+//   This template defines the BASELINE permission set for all agents in this
+//   category. Individual agents may OVERRIDE specific entries to tailor
+//   permissions to their specific needs.
+//
+//   Override example (in the agent's final permissions):
+//   {
+//     "$extends": "research-knowledge",
+//     "overrides": {
+//       "bash": {
+//         "git log": "allow",    // Override: allow git log for review
+//         "git log *": "allow"
+//       }
+//     }
+//   }
+//
+// =============================================================================
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/template.json",
+  "$version": "1.0.0",
+  "$doc": {
+    "baseline_rationale": "Read-only research and knowledge generation — no shell, no file writes, no code execution"
+  },
+  "category": "research-knowledge",
+  "description": "Read-only research, exploration, documentation, and knowledge generation agents",
+  "purpose": "Read-only information agents that research, explore, document, and generate knowledge artifacts. They cannot execute shell commands, write files directly, or modify code. They produce research reports, documentation, cheatsheets, skills, agent definitions, or codebase analysis — never runnable code.",
+  "baseline": {
+    "permission": {
+      "bash": "deny"
+    }
+  }
+}

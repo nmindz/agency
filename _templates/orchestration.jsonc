@@ -1,0 +1,45 @@
+// =============================================================================
+// Permission Template: Orchestration
+// =============================================================================
+//
+// Category: orchestration
+// Description: Orchestrator agents that coordinate sub-agents without direct tool execution
+//
+// Purpose:
+//   Delegation-only coordinators that dispatch work to other agents. They never
+//   execute code, write files, or run shell commands themselves. Their sole
+//   function is to analyze requests, plan work decomposition, and delegate
+//   tasks to specialized agents.
+//
+// Usage:
+//   This template defines the BASELINE permission set for all agents in this
+//   category. Individual agents may OVERRIDE specific entries to tailor
+//   permissions to their specific needs.
+//
+//   Override example (in the agent's final permissions):
+//   {
+//     "$extends": "orchestration",
+//     "overrides": {
+//       "bash": {
+//         "git log": "allow",    // Override: allow git log for review
+//         "git log *": "allow"
+//       }
+//     }
+//   }
+//
+// =============================================================================
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/template.json",
+  "$version": "1.0.0",
+  "$doc": {
+    "baseline_rationale": "Delegation-only coordinators — no shell, no file writes; dispatches work to specialized agents"
+  },
+  "category": "orchestration",
+  "description": "Orchestrator agents that coordinate sub-agents without direct tool execution",
+  "purpose": "Delegation-only coordinators that dispatch work to other agents. They never execute code, write files, or run shell commands themselves. Their sole function is to analyze requests, plan work decomposition, and delegate tasks to specialized agents.",
+  "baseline": {
+    "permission": {
+      "bash": "deny"
+    }
+  }
+}

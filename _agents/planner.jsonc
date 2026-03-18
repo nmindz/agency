@@ -1,0 +1,13 @@
+// Override: planner
+// Extends: planning
+// Delta: none
+{
+  "$schema": "https://raw.githubusercontent.com/nmindz/agency/master/schemas/agent.json",
+  "$version": "1.0.0",
+  "$doc": {
+    "agent_summary": "Technical planner — codebase analysis, architecture recommendations, and execution plans"
+  },
+  "agent": "planner",
+  "$extends": "planning",
+  "overrides": {}
+}
