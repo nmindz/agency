@@ -1,10 +1,14 @@
 # =============================================================================
 # Release Workflow
 #
-# Runs semantic-release on every push/merge to main (and on manual trigger).
+# Runs semantic-release on every push/merge to master (and on manual trigger).
 # semantic-release determines the next version from Conventional Commits,
 # generates the CHANGELOG, creates a GitHub Release + git tag, and commits
-# the updated CHANGELOG.md back to main with [skip ci].
+# the updated CHANGELOG.md back to master with [skip ci].
+#
+# Uses a GitHub App token (Creditas AI Factory SemVer) to bypass branch
+# protection rules, allowing semantic-release to push the CHANGELOG.md
+# commit and version tag directly to master.
 # =============================================================================
 
 name: Release
@@ -12,7 +16,7 @@ name: Release
 on:
   push:
     branches:
-      - main
+      - master
 
   # Allow manual trigger from the GitHub UI — no inputs needed; semantic-release
   # inspects the commit history itself to decide whether a release is warranted.
@@ -29,34 +33,51 @@ jobs:
       pull-requests: write  # comment on PRs (optional but recommended)
 
     steps:
-      # -------------------------------------------------------------------
-      # 1. Checkout full history (semantic-release needs all commits)
-      # -------------------------------------------------------------------
+      # -----------------------------------------------------------------------
+      # 1. Generate GitHub App installation token to bypass branch protection
+      # -----------------------------------------------------------------------
+      - name: Generate GitHub App token
+        uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.VERSION_BUMPER_APPID }}
+          private-key: ${{ secrets.VERSION_BUMPER_SECRET }}
+
+      # -----------------------------------------------------------------------
+      # 2. Checkout full history using the App token (not default GITHUB_TOKEN)
+      #    This configures the git remote with the app token so that
+      #    semantic-release can push commits and tags to the protected branch.
+      # -----------------------------------------------------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
 
-      # -------------------------------------------------------------------
-      # 2. Set up Node.js
-      # -------------------------------------------------------------------
+      # -----------------------------------------------------------------------
+      # 3. Set up Node.js
+      # -----------------------------------------------------------------------
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      # -------------------------------------------------------------------
-      # 3. Install semantic-release and all plugins
+      # -----------------------------------------------------------------------
+      # 4. Install semantic-release and all plugins
       #    No package.json in this repo — install transiently with --no-save.
-      # -------------------------------------------------------------------
+      # -----------------------------------------------------------------------
       - name: Install semantic-release and plugins
         run: npm install --no-save semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/github @semantic-release/git
 
-      # -------------------------------------------------------------------
-      # 4. Run semantic-release
+      # -----------------------------------------------------------------------
+      # 5. Run semantic-release
       #    Config is read from .releaserc.json at the repo root.
-      # -------------------------------------------------------------------
+      #    GITHUB_TOKEN uses the App token so semantic-release can:
+      #    - Push the CHANGELOG.md commit to master (bypassing branch protection)
+      #    - Create the git tag
+      #    - Create the GitHub Release
+      # -----------------------------------------------------------------------
       - name: Run semantic-release
         run: ./node_modules/.bin/semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
